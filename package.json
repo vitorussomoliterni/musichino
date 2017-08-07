@@ -11,9 +11,7 @@
   "author": "Vito Russo Moliterni",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^8.0.19",
-    "botbuilder": "^3.9.0",
-    "restify": "^5.0.1"
+    
   },
   "devDependencies": {
     "@types/node": "^8.0.19",
