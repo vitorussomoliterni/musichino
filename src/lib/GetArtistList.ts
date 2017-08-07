@@ -3,7 +3,7 @@ import * as https from "https";
 export default function(artistName : string) {
     const baseArtistSearchUrl = "https://musicbrainz.org/ws/2/artist?query=";
     const userAgent = "Musichino_Bot/0.1 ( https://github.com/vitorussomoliterni/musichino/ )";
-    var rawData = '';
+    let rawData = '';
 
     const options = {
         hostname: "musicbrainz.org",
