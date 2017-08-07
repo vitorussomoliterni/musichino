@@ -1,0 +1,24 @@
+{
+  "name": "musichino",
+  "version": "1.0.0",
+  "description": "A bot that alerts you of new albums.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vito Russo Moliterni",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@types/node": "^8.0.19",
+    "botbuilder": "^3.9.0",
+    "restify": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.19",
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  }
+}
