@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using musichino.Services;
 
 namespace musichino
 {
@@ -29,6 +30,8 @@ namespace musichino
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddScoped<Fetcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
