@@ -18,6 +18,7 @@ namespace musichino.Controllers
         {
             _fetcher = fetcher;
         }
+        
         [HttpPost("")]
         public async Task<IActionResult> Receive()
         {
