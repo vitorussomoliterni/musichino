@@ -5,12 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using musichino.Services;
 
 namespace musichino.Controllers
 {
     [Route("[controller]")]
     public class WebHook : Controller
     {
+        private Fetcher _fetcher;
+
+        public WebHook(Fetcher fetcher)
+        {
+            _fetcher = fetcher;
+        }
         [HttpPost("")]
         public async Task<IActionResult> Receive()
         {
@@ -19,13 +26,10 @@ namespace musichino.Controllers
             {
                 var text = await reader.ReadToEndAsync();
 
-                if (text == "ciao")
-                {
-                    return Ok("This is working");
-                }
-            }
+                var response = await _fetcher.GetArtistList(text);
 
-            return Unauthorized();
+                return Ok(response + "\n");
+            }
         }
     }
 }
