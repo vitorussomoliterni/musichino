@@ -6,9 +6,9 @@ using System.Xml;
 
 namespace musichino.Services
 {
-public class Fetcher
+public class MusicbrainzService
 {
-    public async Task<IEnumerable<string>> GetArtistList(string artistName)
+    public async Task<IEnumerable<string>> GetArtistNameList(string artistName)
     {
         using (var client = new HttpClient())
         {

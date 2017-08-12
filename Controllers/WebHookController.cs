@@ -12,11 +12,11 @@ namespace musichino.Controllers
     [Route("[controller]")]
     public class WebHook : Controller
     {
-        private Fetcher _fetcher;
+        private MusicbrainzService _musicbrainz;
 
-        public WebHook(Fetcher fetcher)
+        public WebHook(MusicbrainzService musicbrainz)
         {
-            _fetcher = fetcher;
+            _musicbrainz = musicbrainz;
         }
         
         [HttpPost("")]
@@ -25,11 +25,17 @@ namespace musichino.Controllers
 
             using (var reader = new StreamReader(Request.Body))
             {
+                var messageResponse = String.Empty;
                 var text = await reader.ReadToEndAsync();
 
-                var response = await _fetcher.GetArtistList(text);
+                var response = await _musicbrainz.GetArtistNameList(text);
 
-                return Ok(response);
+                foreach (var item in response)
+                {
+                    messageResponse += item + "\n";
+                }
+
+                return Ok(messageResponse);
             }
         }
     }
