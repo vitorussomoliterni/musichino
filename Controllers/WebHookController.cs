@@ -29,7 +29,7 @@ namespace musichino.Controllers
 
                 var response = await _fetcher.GetArtistList(text);
 
-                return Ok(response + "\n");
+                return Ok(response);
             }
         }
     }

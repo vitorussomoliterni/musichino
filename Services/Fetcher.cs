@@ -36,20 +36,19 @@ public class Fetcher
         }
     }
 
-    private List<string> ReadXmlResponse(string body)
+    private IEnumerable<string> ReadXmlResponse(string body)
     {
         var doc = new XmlDocument();
         doc.LoadXml(body);
 
         var artists = new List<string>();
 
-        var nodes = doc.DocumentElement;
-        //doc.DocumentElement.SelectNodes("/metadata/artist-list/artist");
+        var nodes = doc.DocumentElement.GetElementsByTagName("artist");
 
-        foreach (var a in nodes)
+        foreach (XmlNode a in nodes)
         {
-            //var artistName = a.Attributes["name"].Value;
-            artists.Add(a.ToString());
+            var artistName = a["name"].InnerText;
+            artists.Add(artistName);
         }
 
         return artists;
