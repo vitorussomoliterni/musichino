@@ -31,7 +31,7 @@ namespace musichino.Controllers
 
                 foreach (var artist in response)
                 {
-                    messageResponse += artist.Name + "\n";
+                    messageResponse += $"{artist.Name} ({artist.Country})\n";
                 }
 
                 return Ok(messageResponse);

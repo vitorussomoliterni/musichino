@@ -52,8 +52,8 @@ namespace musichino.Services
 
                 // artist.Id = a["id"].InnerText;
                 // artist.Type = a["type"].InnerText;
-                artist.Name = a["name"].InnerText;
-                artist.Country = a["country"].InnerText;
+                artist.Name = (a["name"] != null) ? a["name"].InnerText : null;
+                artist.Country = (a["country"] != null) ? a["country"].InnerText : null;
                 // artist.BeginYear = a["life-span"].InnerText;
 
                 // if (a["life-span"].InnerText.Equals("false"))
