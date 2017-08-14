@@ -43,7 +43,7 @@ namespace musichino.Services
         {
             var document = XDocument.Parse(body);
 
-            var artistsList = document.Descendants()
+            return document.Descendants()
                 .Where(node => node.Name.LocalName == "artist")
                 .Select(element => new ArtistModel {
                     Id = (string)element.Attribute("id"),
@@ -55,18 +55,14 @@ namespace musichino.Services
                     Type = (string)element.Attribute("type")
                 })
                 .ToList();
-
-            return artistsList;
         }
 
         private string GetValueFromXml(XElement element, string query)
         {
-            var result = (string)element.Descendants()
+            return (string)element.Descendants()
                 .Where(e => e.Name.LocalName == query)
                 .Select(e => e.Value)
                 .FirstOrDefault();
-
-            return result;
         }
 
         private string GetRawdataForTesting()
