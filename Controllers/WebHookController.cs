@@ -31,7 +31,7 @@ namespace musichino.Controllers
 
                 foreach (var artist in response)
                 {
-                    messageResponse += $"{artist.Id} - {artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear})\n";
+                    messageResponse += $"{artist.Id} - {artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear} to {artist.EndYear}) {artist.Ended}\n";
                 }
 
                 if (!response.Any())
