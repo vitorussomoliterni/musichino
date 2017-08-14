@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using musichino.Services;
-using musichino.Commands;
+using musichino.Data.Models;
 
 namespace musichino.Controllers
 {
@@ -31,7 +31,12 @@ namespace musichino.Controllers
 
                 foreach (var artist in response)
                 {
-                    messageResponse += $"{artist.Name} ({artist.Country})\n";
+                    messageResponse += $"{artist.Id} - {artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear})\n";
+                }
+
+                if (!response.Any())
+                {
+                    return NotFound("Not found\n");
                 }
 
                 return Ok(messageResponse);

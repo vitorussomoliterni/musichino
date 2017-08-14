@@ -1,6 +1,6 @@
-namespace musichino.Commands
+namespace musichino.Data.Models
 {
-    public class ArtistCommand
+    public class ArtistModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

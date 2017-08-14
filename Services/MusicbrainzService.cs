@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
-using musichino.Commands;
+using System.Xml.Linq;
+using musichino.Data.Models;
 
 namespace musichino.Services
 {
     public class MusicbrainzService
     {
-        public async Task<IEnumerable<ArtistCommand>> GetArtistNameList(string artistName)
+        public async Task<IEnumerable<ArtistModel>> GetArtistNameList(string artistName)
         {
             using (var client = new HttpClient())
             {
@@ -37,39 +39,49 @@ namespace musichino.Services
             }
         }
 
-        private IEnumerable<ArtistCommand> ReadXmlResponse(string body)
+        private IEnumerable<ArtistModel> ReadXmlResponse(string body)
         {
             var doc = new XmlDocument();
             doc.LoadXml(body);
 
-            var artists = new List<ArtistCommand>();
+            var artists = new List<ArtistModel>();
 
-            var nodes = doc.DocumentElement.GetElementsByTagName("artist");
+            // var nodes = doc.DocumentElement.GetElementsByTagName("artist");
 
-            foreach (XmlNode a in nodes)
-            {
-                var artist = new ArtistCommand();
+            // foreach (XmlNode n in nodes)
+            // {
+            //     var artist = new ArtistModel();
 
-                // artist.Id = a["id"].InnerText;
-                // artist.Type = a["type"].InnerText;
-                artist.Name = (a["name"] != null) ? a["name"].InnerText : null;
-                artist.Country = (a["country"] != null) ? a["country"].InnerText : null;
-                // artist.BeginYear = a["life-span"].InnerText;
+            //     artist.Id = (n.Attributes["id"] != null) ? n.Attributes["id"].InnerText : null;
+            //     artist.Type = (n.Attributes["type"] != null) ? n.Attributes["type"].InnerText : null;
+            //     artist.Name = (n["name"] != null) ? n["name"].InnerText : null;
+            //     artist.Country = (n["country"] != null) ? n["country"].InnerText : null;
 
-                // if (a["life-span"].InnerText.Equals("false"))
-                // {
-                //     artist.Ended = false;
-                //     artist.EndYear = null;
-                // }
-                // else
-                // {
-                //     artist.Ended = true;
-                // }
+            //     var lifeSpan = n["life-span"].GetElementsByTagName("begin");
+            //     foreach (XmlNode m in lifeSpan)
+            //     {
+            //         artist.BeginYear = (m["begin"] != null) ? m["begin"].InnerText : null;
+            //         artist.EndYear = (m["end"] != null) ? m["end"].InnerText : null;
+            //         artist.Ended = (m["ended"] != null) ? true : false;
+            //     }
 
-                artists.Add(artist);
-            }
+            //     artists.Add(artist);
+            // }
 
-            return artists;
+            var document = XDocument.Parse(body);
+
+            var artistsList = document.Descendants()
+                .Where(d => d.Name.LocalName == "artist")
+                .Select(a => new ArtistModel {
+                    Id = (string)a.Attribute("id"),
+                    Name = (string)a.Descendants()
+                        .Where(d => d.Name.LocalName == "name")
+                        .Select(d => d.Value)
+                        .FirstOrDefault()
+                })
+                .ToList();
+
+            return artistsList;
         }
 
         private string GetRawdataForTesting()
