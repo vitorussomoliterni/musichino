@@ -30,6 +30,11 @@ namespace musichino.Services
 
                     return artists;
                 }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw ex;
+                }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
