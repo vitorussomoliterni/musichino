@@ -27,19 +27,32 @@ namespace musichino.Controllers
             {
                 var messageResponse = String.Empty;
                 var text = await reader.ReadToEndAsync();
-                var response = await _musicbrainz.GetArtistNameList(text);
 
-                foreach (var artist in response)
+                if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text))
                 {
-                    messageResponse += $"{artist.Id} - {artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear} to {artist.EndYear}) {artist.Ended}\n";
+                    return BadRequest("Specify an artist name\n");
                 }
 
-                if (!response.Any())
+                try
                 {
-                    return NotFound("Not found\n");
-                }
+                    var response = await _musicbrainz.GetArtistNameList(text);
 
-                return Ok(messageResponse);
+                    if (!response.Any())
+                    {
+                        return NotFound("No artist found\n");
+                    }
+
+                    foreach (var artist in response)
+                    {
+                        messageResponse += $"{artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear} to {artist.EndYear}) {artist.Ended}\n";
+                    }
+
+                    return Ok(messageResponse);
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(500, ex);
+                }
             }
         }
     }
