@@ -10,7 +10,7 @@ using musichino.Data.Models;
 
 namespace musichino.Controllers
 {
-    [Route("[controller]")]
+    [Route("")]
     public class WebHook : Controller
     {
         private MusicbrainzService _musicbrainz;
