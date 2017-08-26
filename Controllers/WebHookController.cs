@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using musichino.Services;
 using musichino.Data.Models;
+using musichino.Models;
 
 namespace musichino.Controllers
 {
@@ -14,10 +15,12 @@ namespace musichino.Controllers
     public class WebHook : Controller
     {
         private MusicbrainzService _musicbrainz;
+        private MessageService _message;
 
-        public WebHook(MusicbrainzService musicbrainz)
+        public WebHook(MusicbrainzService musicbrainz, MessageService message)
         {
             _musicbrainz = musicbrainz;
+            _message = message;
         }
         
         [HttpPost("")]
@@ -32,6 +35,10 @@ namespace musichino.Controllers
                 {
                     return BadRequest("Specify an artist name\n");
                 }
+
+                var messageBody = _message.GetMessageText(text);
+
+                return Ok(messageBody);
 
                 try
                 {
