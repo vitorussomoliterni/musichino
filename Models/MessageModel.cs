@@ -1,6 +1,6 @@
 namespace musichino.Models
 {
-    internal class MessageModel
+    public class MessageModel
     {
         public int MessageId { get; set; }
         public string LastName { get; set; }

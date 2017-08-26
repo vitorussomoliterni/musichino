@@ -1,15 +1,23 @@
 using Newtonsoft.Json;
 using musichino.Models;
+using System;
 
 namespace musichino.Services
 {
     public class MessageService
     {
-        public string GetMessageText(string message)
+        public MessageModel GetMessageText(string message)
         {
-            var messageDeserialiser = new { update_id = "", message = "" };
-            var messageBody = JsonConvert.DeserializeAnonymousType(message, messageDeserialiser);
-            return messageBody.message;
+            try
+            {
+                var messageDeserialiser = new { update_id = "", message = new MessageModel() };
+                var messageBody = JsonConvert.DeserializeAnonymousType(message, messageDeserialiser);
+                return messageBody.message;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

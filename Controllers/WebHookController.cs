@@ -29,20 +29,18 @@ namespace musichino.Controllers
             using (var reader = new StreamReader(Request.Body))
             {
                 var messageResponse = String.Empty;
-                var text = await reader.ReadToEndAsync();
+                var rawMessage = await reader.ReadToEndAsync();
 
-                if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text))
+                if (String.IsNullOrEmpty(rawMessage) || String.IsNullOrWhiteSpace(rawMessage))
                 {
-                    return BadRequest("Specify an artist name\n");
+                    return BadRequest();
                 }
-
-                var messageBody = _message.GetMessageText(text);
-
-                return Ok(messageBody);
 
                 try
                 {
-                    var response = await _musicbrainz.GetArtistNameList(text);
+                    var messageBody = _message.GetMessageText(rawMessage);
+                    
+                    var response = await _musicbrainz.GetArtistNameList(messageBody.Text);
 
                     if (!response.Any())
                     {
@@ -51,7 +49,7 @@ namespace musichino.Controllers
 
                     foreach (var artist in response)
                     {
-                        messageResponse += $"{artist.Name}, {artist.Type} ({artist.Country} - {artist.BeginYear} to {artist.EndYear}) {artist.Ended}\n";
+                        messageResponse += $"{artist.Name}, {artist.Type} ({artist.Country})\n";
                     }
 
                     return Ok(messageResponse);
