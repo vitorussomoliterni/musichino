@@ -17,6 +17,7 @@ namespace musichino
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://localhost:8443")
                 .Build();
 
             host.Run();
