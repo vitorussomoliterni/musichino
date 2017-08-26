@@ -31,7 +31,8 @@ namespace musichino
             // Add framework services.
             services.AddMvc();
 
-            services.AddScoped<MusicbrainzService>();
+            services.AddScoped<MusicbrainzService>()
+                .AddScoped<MessageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
