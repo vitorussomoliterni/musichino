@@ -37,11 +37,16 @@ namespace musichino.Services
         public Commands GetCommandType(string text)
         {
             var indexOfFirstSpace = text.IndexOf(" ");
-            var command = text.Substring(0, indexOfFirstSpace + 1).ToLower();
+            var command = text.Substring(0, indexOfFirstSpace).ToLower();
 
-            if (command.Equals("add"))
+            switch (command)
             {
-                return Commands.SearchArtist;
+                case "add":
+                    return Commands.Add;
+                case "remove":
+                    return Commands.Remove;
+                default:
+                    return Commands.Other;
             }
             
             throw new InvalidOperationException();
@@ -49,9 +54,9 @@ namespace musichino.Services
 
         public enum Commands 
         {
-            SearchArtist,
-            AddArtist,
-            RemoveArtist
+            Add,
+            Remove,
+            Other
         }
     }
 }
