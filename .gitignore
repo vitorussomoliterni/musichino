@@ -240,3 +240,4 @@ _Pvt_Extensions
 .fake/
 
 dockerfile
+.vscode/launch.json
