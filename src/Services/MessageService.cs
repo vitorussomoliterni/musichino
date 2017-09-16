@@ -8,16 +8,17 @@ namespace musichino.Services
 {
     public class MessageService
     {
-        public MessageModel GetMessage(string message)
+        public MessageModel GetMessage(string rawMessage)
         {
             try
             {
-                var messageDeserialiser = new { update_id = "", message = new MessageModel() };
-                var messageBody = JsonConvert.DeserializeAnonymousType(message, messageDeserialiser);
+                var messageDeserialiser = new { message = new MessageModel() };
+                var messageBody = JsonConvert.DeserializeAnonymousType(rawMessage, messageDeserialiser);
                 return messageBody.message;
             }
             catch (Exception ex)
             {
+                // TODO: Better error handling
                 throw ex;
             }
         }
@@ -32,6 +33,7 @@ namespace musichino.Services
             }
             catch (Exception ex)
             {
+                // TODO: Better error handling
                 throw ex;
             }
         }
@@ -54,8 +56,6 @@ namespace musichino.Services
                 default:
                     return Commands.Other;
             }
-            
-            throw new InvalidOperationException();
         }
 
         public async Task<string> ReadRequestBodyAsync(Stream body)
@@ -73,14 +73,6 @@ namespace musichino.Services
             }
 
             return rawMessage;
-        }
-
-        private void performAction(int command)
-        {
-            switch (command)
-            {
-                
-            }
         }
 
         public enum Commands 
