@@ -24,40 +24,19 @@ namespace musichino.Controllers
         }
         
         [HttpPost("")]
-        public async Task<IActionResult> Receive()
+        public async Task<IActionResult> ReceiveMessages()
         {
-            using (var reader = new StreamReader(Request.Body))
+            try
             {
-                var messageResponse = String.Empty;
-                var rawMessage = await reader.ReadToEndAsync();
+                var rawMessage = await _message.ReadRequestBodyAsync(Request.Body);
+                var message = _message.GetMessage(rawMessage);
+                var action = _message.GetMessageCommand(message.Text);
 
-                if (String.IsNullOrEmpty(rawMessage) || String.IsNullOrWhiteSpace(rawMessage))
-                {
-                    return BadRequest();
-                }
-
-                try
-                {
-                    var messageBody = _message.GetMessageText(rawMessage);
-                    
-                    var response = await _musicbrainz.GetArtistNameList(messageBody.Text);
-
-                    if (!response.Any())
-                    {
-                        return NotFound("No artist found\n");
-                    }
-
-                    foreach (var artist in response)
-                    {
-                        messageResponse += $"{artist.Name}, {artist.Type} ({artist.Country})\n";
-                    }
-
-                    return Ok(messageResponse);
-                }
-                catch (System.Exception ex)
-                {
-                    return StatusCode(500, ex);
-                }
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }
