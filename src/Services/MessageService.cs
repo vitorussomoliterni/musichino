@@ -1,12 +1,14 @@
 using Newtonsoft.Json;
 using musichino.Models;
 using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace musichino.Services
 {
     public class MessageService
     {
-        public MessageModel GetMessageText(string message)
+        public MessageModel GetMessage(string message)
         {
             try
             {
@@ -54,6 +56,31 @@ namespace musichino.Services
             }
             
             throw new InvalidOperationException();
+        }
+
+        public async Task<string> ReadRequestBodyAsync(Stream body)
+        {
+            var rawMessage = String.Empty;
+            using (var reader = new StreamReader(body))
+            {
+                rawMessage = await reader.ReadToEndAsync();
+            }
+
+            if (String.IsNullOrEmpty(rawMessage) || String.IsNullOrWhiteSpace(rawMessage))
+            {
+                // TODO: Handle this exception properly
+                throw new Exception("No request found");
+            }
+
+            return rawMessage;
+        }
+
+        private void performAction(int command)
+        {
+            switch (command)
+            {
+                
+            }
         }
 
         public enum Commands 
