@@ -26,7 +26,7 @@ namespace musichino.Services
             {
                 var messageDeserialiser = new { update_id = "", message = new MessageModel() };
                 var messageBody = JsonConvert.DeserializeAnonymousType(message, messageDeserialiser);
-                return GetCommandType(messageBody.message.Text);
+                return getCommandType(messageBody.message.Text);
             }
             catch (Exception ex)
             {
@@ -34,7 +34,7 @@ namespace musichino.Services
             }
         }
 
-        public Commands GetCommandType(string text)
+        private Commands getCommandType(string text)
         {
             var indexOfFirstSpace = text.IndexOf(" ");
             var command = text.Substring(0, indexOfFirstSpace).ToLower();
@@ -45,6 +45,10 @@ namespace musichino.Services
                     return Commands.Add;
                 case "remove":
                     return Commands.Remove;
+                case "suspend":
+                    return Commands.Suspend;
+                case "help":
+                    return Commands.Help;
                 default:
                     return Commands.Other;
             }
@@ -56,6 +60,8 @@ namespace musichino.Services
         {
             Add,
             Remove,
+            Suspend,
+            Help,
             Other
         }
     }
