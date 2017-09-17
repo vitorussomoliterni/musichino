@@ -17,15 +17,32 @@ namespace Tests
             return rawMessage;
         }
 
+        private MessageModel messageModelFactory(string text)
+        {
+            var messageModel = new MessageModel()
+            {
+                MessageId = 1365,
+                UserId = 1111111,
+                Date = new DateTime(2017,9,17),
+                LastName = "Test Lastname",
+                FirstName = "Test",
+                Username = "Test",
+                Text = text
+            };
+
+            return messageModel;
+        }
+
         [Fact]
         public void TestGetMessageCommand_ShouldReturnAddArtist()
         {
             //Given
             var service = new MessageService();
+            var messageModel = messageModelFactory("add nofx");
             var rawMessage = rawMessageFactory("add nofx");
 
             //When
-            var actualText = service.GetMessageCommand(rawMessage);
+            var actualText = service.GetMessageCommand(messageModel.Text);
             var expectedText = MessageService.Commands.Add;
 
             //Then
@@ -44,7 +61,9 @@ namespace Tests
             var actualMessage = service.GetMessage(rawMessage);
             var expectedMessage = new MessageModel()
             {
-                MessageId = 10000,
+                MessageId = 1365,
+                UserId = 1111111,
+                Date = new DateTime(2017,9,17),
                 LastName = "Test Lastname",
                 FirstName = "Test",
                 Username = "Test",
@@ -52,7 +71,14 @@ namespace Tests
             };
 
             //Then
-            Assert.Equal(expectedMessage, actualMessage);
+            Assert.NotNull(actualMessage);
+            Assert.Equal(expectedMessage.Date, actualMessage.Date);
+            Assert.Equal(expectedMessage.UserId, actualMessage.UserId);
+            Assert.Equal(expectedMessage.FirstName, actualMessage.FirstName);
+            Assert.Equal(expectedMessage.LastName, actualMessage.LastName);
+            Assert.Equal(expectedMessage.MessageId, actualMessage.MessageId);
+            Assert.Equal(expectedMessage.Text, actualMessage.Text);
+            Assert.Equal(expectedMessage.Username, actualMessage.Username);
         }
 
         // TODO: Add testing for reading the request

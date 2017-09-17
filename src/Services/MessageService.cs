@@ -12,9 +12,11 @@ namespace musichino.Services
         {
             try
             {
-                var messageDeserialiser = new { message = new MessageModel() };
+                var messageDeserialiser = new MessageJsonModel();
                 var messageBody = JsonConvert.DeserializeAnonymousType(rawMessage, messageDeserialiser);
-                return messageBody.message;
+                var message = mapJsonModelToMessage(messageBody);
+
+                return message;
             }
             catch (Exception ex)
             {
@@ -23,38 +25,46 @@ namespace musichino.Services
             }
         }
 
-        public Commands GetMessageCommand(string message)
+        private MessageModel mapJsonModelToMessage(MessageJsonModel body)
+        {
+            var message = new MessageModel() {
+                MessageId = body.MessageId,
+                UserId = body.Sender.UserId,
+                Date = DateTimeService.UnixTimeToDateTime(body.Date),
+                FirstName = body.Sender.FirstName,
+                LastName = body.Sender.LastName,
+                Username = body.Sender.Username,
+                Text = body.Text
+            };
+
+            return message;
+        }
+
+        public Commands GetMessageCommand(string text)
         {
             try
             {
-                var messageDeserialiser = new { update_id = "", message = new MessageModel() };
-                var messageBody = JsonConvert.DeserializeAnonymousType(message, messageDeserialiser);
-                return getCommandType(messageBody.message.Text);
+                var indexOfFirstSpace = text.IndexOf(" ");
+                var command = text.Substring(0, indexOfFirstSpace).ToLower();
+
+                switch (command)
+                {
+                    case "add":
+                        return Commands.Add;
+                    case "remove":
+                        return Commands.Remove;
+                    case "suspend":
+                        return Commands.Suspend;
+                    case "help":
+                        return Commands.Help;
+                    default:
+                        return Commands.Other;
+                }
             }
             catch (Exception ex)
             {
                 // TODO: Better error handling
                 throw ex;
-            }
-        }
-
-        private Commands getCommandType(string text)
-        {
-            var indexOfFirstSpace = text.IndexOf(" ");
-            var command = text.Substring(0, indexOfFirstSpace).ToLower();
-
-            switch (command)
-            {
-                case "add":
-                    return Commands.Add;
-                case "remove":
-                    return Commands.Remove;
-                case "suspend":
-                    return Commands.Suspend;
-                case "help":
-                    return Commands.Help;
-                default:
-                    return Commands.Other;
             }
         }
 
@@ -83,5 +93,26 @@ namespace musichino.Services
             Help,
             Other
         }
+    }
+
+    internal class MessageJsonModel
+    {
+        [JsonProperty("message_id")]
+        internal int MessageId { get; set; }
+        internal int Date { get; set; }
+        [JsonProperty("from")]
+        internal SenderJsonModel Sender { get; set; }
+        internal string Text { get; set; }
+    }
+
+    internal class SenderJsonModel
+    {
+        [JsonProperty("id")]
+        internal int UserId { get; set; }
+        [JsonProperty("first_name")]
+        internal string FirstName { get; set; }
+        [JsonProperty("last_name")]
+        internal string LastName { get; set; }
+        internal string Username { get; set; }
     }
 }
