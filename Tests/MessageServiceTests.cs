@@ -51,7 +51,7 @@ namespace Tests
         }
 
         [Fact]
-        public void TestGetMessageCommand_ShouldReturnAddArtist()
+        public void TestGetMessageCommand_ShouldReturnAdd()
         {
             //Given
             var service = new MessageService();
@@ -62,6 +62,88 @@ namespace Tests
             //When
             var actualText = service.GetMessageCommand(messageModel.Text);
             var expectedText = MessageService.Commands.Add;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+
+        [Fact]
+        public void TestGetMessageCommand_ShouldReturnRemove()
+        {
+            //Given
+            var service = new MessageService();
+            var text = "remove green day";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.Remove;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+        
+        [Fact]
+        public void TestGetMessageCommand_ShouldReturnSuspend()
+        {
+
+            //Given
+            var service = new MessageService();
+            var text = "suspend";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.Suspend;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+
+        [Fact]
+        public void TestGetMessageCommand_ShouldReturnHelp()
+        {
+            //Given
+            var service = new MessageService();
+            var text = "help";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.Help;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+
+        [Fact]
+        public void TestGetMessageCommand_ShouldThrowInvalidDataException()
+        {
+            //Given
+            var service = new MessageService();
+
+            //Then
+            Assert.Throws<InvalidDataException>(() => service.GetMessageCommand("   "));
+            Assert.Throws<InvalidDataException>(() => service.GetMessageCommand(""));
+            Assert.Throws<InvalidDataException>(() => service.GetMessageCommand(null));
+            Assert.Throws<InvalidDataException>(() => service.GetMessageCommand(" "));
+        }
+
+        [Fact]
+        public void TestGetMessageCommand_ShouldReturnOther()
+        {
+            //Given
+            var service = new MessageService();
+            var text = "avada kevadra";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.Other;
 
             //Then
             Assert.Equal(expectedText, actualText);
