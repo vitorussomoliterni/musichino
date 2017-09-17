@@ -28,8 +28,11 @@ namespace musichino.Services
         {
             try
             {
-                var indexOfFirstSpace = text.IndexOf(" ");
-                var command = text.Substring(0, indexOfFirstSpace).ToLower();
+                if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text))
+                {
+                    throw new InvalidDataException();
+                }
+                var command = getCommandFromText(text);
 
                 switch (command)
                 {
@@ -50,6 +53,20 @@ namespace musichino.Services
                 // TODO: Better error handling
                 throw ex;
             }
+        }
+
+        private string getCommandFromText(string text)
+        {
+            text = text.Trim().ToLower();
+
+            var indexOfFirstSpace = text.IndexOf(" ");
+
+            if (indexOfFirstSpace <= 0)
+            {
+                return text;
+            }
+
+            return text.Substring(0, indexOfFirstSpace);
         }
 
         public async Task<string> ReadRequestBodyAsync(Stream body)
