@@ -13,7 +13,7 @@ namespace Tests
     {
         private string rawMessageFactory(string userMessage)
         {
-            var rawMessage = "{\"update_id\":10000,\"message\":{\"date\":1441645532,\"chat\":{\"last_name\":\"Test Lastname\",\"id\":1111111,\"first_name\":\"Test\",\"username\":\"Test\"},\"message_id\":1365,\"from\":{\"last_name\":\"Test Lastname\",\"id\":1111111,\"first_name\":\"Test\",\"username\":\"Test\"},\"text\":\"" + userMessage + "\"}}";
+            var rawMessage = "{\"update_id\":10000,\"message\":{\"date\":1483228800,\"chat\":{\"last_name\":\"Test Lastname\",\"id\":1111111,\"first_name\":\"Test\",\"username\":\"Test\"},\"message_id\":1365,\"from\":{\"last_name\":\"Test Lastname\",\"id\":1111111,\"first_name\":\"Test\",\"username\":\"Test\"},\"text\":\"" + userMessage + "\"}}";
             return rawMessage;
         }
 
@@ -23,7 +23,7 @@ namespace Tests
             {
                 MessageId = 1365,
                 UserId = 1111111,
-                Date = new DateTime(2017,9,17),
+                Date = new DateTime(2017, 1, 1),
                 LastName = "Test Lastname",
                 FirstName = "Test",
                 Username = "Test",
@@ -56,19 +56,11 @@ namespace Tests
             var service = new MessageService();
             var text = "add nofx";
             var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory("add nofx");
 
             //When
             var actualMessage = service.GetMessage(rawMessage);
-            var expectedMessage = new MessageModel()
-            {
-                MessageId = 1365,
-                UserId = 1111111,
-                Date = new DateTime(2017,9,17),
-                LastName = "Test Lastname",
-                FirstName = "Test",
-                Username = "Test",
-                Text = text
-            };
+            var expectedMessage = messageModel;
 
             //Then
             Assert.NotNull(actualMessage);
