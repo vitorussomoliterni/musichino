@@ -12,7 +12,7 @@ namespace musichino.Services
         {
             try
             {
-                var messageBody = JsonConvert.DeserializeObject<UpdateJsonModel>(rawMessage);
+                var messageBody = JsonConvert.DeserializeObject<IncomingUpdateJsonModel>(rawMessage);
                 var message = mapJsonModelToMessage(messageBody.Message);
 
                 return message;
@@ -22,21 +22,6 @@ namespace musichino.Services
                 // TODO: Better error handling
                 throw ex;
             }
-        }
-
-        private MessageModel mapJsonModelToMessage(MessageJsonModel body)
-        {
-            var message = new MessageModel() {
-                MessageId = body.MessageId,
-                UserId = body.Sender.UserId,
-                Date = DateTimeService.UnixTimeToDateTime(body.Date),
-                FirstName = body.Sender.FirstName,
-                LastName = body.Sender.LastName,
-                Username = body.Sender.Username,
-                Text = body.Text
-            };
-
-            return message;
         }
 
         public Commands GetMessageCommand(string text)
@@ -69,19 +54,42 @@ namespace musichino.Services
 
         public async Task<string> ReadRequestBodyAsync(Stream body)
         {
-            var rawMessage = String.Empty;
-            using (var reader = new StreamReader(body))
+            try
             {
-                rawMessage = await reader.ReadToEndAsync();
-            }
+                var rawMessage = String.Empty;
+                using (var reader = new StreamReader(body))
+                {
+                    rawMessage = await reader.ReadToEndAsync();
+                }
 
-            if (String.IsNullOrEmpty(rawMessage) || String.IsNullOrWhiteSpace(rawMessage))
+                if (String.IsNullOrEmpty(rawMessage) || String.IsNullOrWhiteSpace(rawMessage))
+                {
+                    // TODO: Handle this exception properly
+                    throw new Exception("No request found");
+                }
+
+                return rawMessage;
+            }
+            catch (Exception ex)
             {
-                // TODO: Handle this exception properly
-                throw new Exception("No request found");
+                // TODO: Better error handling
+                throw ex;
             }
+        }
 
-            return rawMessage;
+        private MessageModel mapJsonModelToMessage(MessageJsonModel body)
+        {
+            var message = new MessageModel() {
+                MessageId = body.MessageId,
+                UserId = body.Sender.UserId,
+                Date = DateTimeService.UnixTimeToDateTime(body.Date),
+                FirstName = body.Sender.FirstName,
+                LastName = body.Sender.LastName,
+                Username = body.Sender.Username,
+                Text = body.Text
+            };
+
+            return message;
         }
 
         public enum Commands 
@@ -94,7 +102,7 @@ namespace musichino.Services
         }
     }
 
-    public class UpdateJsonModel
+    public class IncomingUpdateJsonModel
     {
         public MessageJsonModel Message { get; set; }
     }
