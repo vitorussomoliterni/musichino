@@ -3,7 +3,6 @@ using Xunit;
 using musichino.Models;
 using musichino.Services;
 using System.Threading.Tasks;
-using System.Net.Http;
 using System.Text;
 using System.IO;
 
