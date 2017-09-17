@@ -23,7 +23,7 @@ namespace Tests
             {
                 MessageId = 1365,
                 UserId = 1111111,
-                Date = new DateTime(2017, 1, 1),
+                UtcDate = new DateTime(2017, 1, 1),
                 LastName = "Test Lastname",
                 FirstName = "Test",
                 Username = "Test",
@@ -64,7 +64,7 @@ namespace Tests
 
             //Then
             Assert.NotNull(actualMessage);
-            Assert.Equal(expectedMessage.Date, actualMessage.Date);
+            Assert.Equal(expectedMessage.UtcDate, actualMessage.UtcDate);
             Assert.Equal(expectedMessage.UserId, actualMessage.UserId);
             Assert.Equal(expectedMessage.FirstName, actualMessage.FirstName);
             Assert.Equal(expectedMessage.LastName, actualMessage.LastName);

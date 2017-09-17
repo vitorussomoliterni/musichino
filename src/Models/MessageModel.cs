@@ -9,7 +9,7 @@ namespace musichino.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime UtcDate { get; set; }
         public string Text { get; set; }
     }
 }
