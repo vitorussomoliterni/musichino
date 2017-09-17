@@ -38,8 +38,9 @@ namespace Tests
         {
             //Given
             var service = new MessageService();
-            var messageModel = messageModelFactory("add nofx");
-            var rawMessage = rawMessageFactory("add nofx");
+            var text = "add nofx";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
 
             //When
             var actualText = service.GetMessageCommand(messageModel.Text);
@@ -56,7 +57,7 @@ namespace Tests
             var service = new MessageService();
             var text = "add nofx";
             var rawMessage = rawMessageFactory(text);
-            var messageModel = messageModelFactory("add nofx");
+            var messageModel = messageModelFactory(text);
 
             //When
             var actualMessage = service.GetMessage(rawMessage);
@@ -74,25 +75,21 @@ namespace Tests
         }
 
         // TODO: Add testing for reading the request
-        /*
         [Fact]
         public async Task TestReadRequestBodyAsync_ShouldReturnString()
         {
             //Given
             var service = new MessageService();
-            var message = messageFactory("add nofx");
-            var stream = new byte[255];
+            var rawMessage = rawMessageFactory("add nofx");
             
             //When
-            using (var writer = new StreamWriter(new MemoryStream(stream)))
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(rawMessage)))
             {
-                writer.WriteLine(message);
-            }
-            var result = await service.ReadRequestBodyAsync(stream);
+                var result = await service.ReadRequestBodyAsync(stream);
             
-            //Then
-            Assert.Equal();
+                //Then
+                Assert.Equal(rawMessage, result);
+            }
         }
-        */
     }
 }
