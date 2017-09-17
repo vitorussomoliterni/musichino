@@ -82,7 +82,7 @@ namespace musichino.Services
             var message = new MessageModel() {
                 MessageId = body.MessageId,
                 UserId = body.Sender.UserId,
-                UtcDate = DateTimeService.UnixTimeToDateTime(body.Date),
+                UtcDate = DateTimeHelper.UnixTimeToDateTime(body.Date),
                 FirstName = body.Sender.FirstName,
                 LastName = body.Sender.LastName,
                 Username = body.Sender.Username,

@@ -2,7 +2,7 @@ using System;
 
 namespace musichino.Services
 {
-    public class DateTimeService
+    public class DateTimeHelper
     {
         public static DateTime UnixTimeToDateTime(int unixTime)
         {
