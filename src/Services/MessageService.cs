@@ -12,9 +12,8 @@ namespace musichino.Services
         {
             try
             {
-                var messageDeserialiser = new MessageJsonModel();
-                var messageBody = JsonConvert.DeserializeAnonymousType(rawMessage, messageDeserialiser);
-                var message = mapJsonModelToMessage(messageBody);
+                var messageBody = JsonConvert.DeserializeObject<UpdateJsonModel>(rawMessage);
+                var message = mapJsonModelToMessage(messageBody.Message);
 
                 return message;
             }
@@ -95,24 +94,29 @@ namespace musichino.Services
         }
     }
 
-    internal class MessageJsonModel
+    public class UpdateJsonModel
     {
-        [JsonProperty("message_id")]
-        internal int MessageId { get; set; }
-        internal int Date { get; set; }
-        [JsonProperty("from")]
-        internal SenderJsonModel Sender { get; set; }
-        internal string Text { get; set; }
+        public MessageJsonModel Message { get; set; }
     }
 
-    internal class SenderJsonModel
+    public class MessageJsonModel
+    {
+        [JsonProperty("message_id")]
+        public int MessageId { get; set; }
+        public int Date { get; set; }
+        [JsonProperty("from")]
+        public SenderJsonModel Sender { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class SenderJsonModel
     {
         [JsonProperty("id")]
-        internal int UserId { get; set; }
+        public int UserId { get; set; }
         [JsonProperty("first_name")]
-        internal string FirstName { get; set; }
+        public string FirstName { get; set; }
         [JsonProperty("last_name")]
-        internal string LastName { get; set; }
-        internal string Username { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
     }
 }
