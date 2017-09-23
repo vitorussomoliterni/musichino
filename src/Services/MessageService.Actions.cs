@@ -4,7 +4,7 @@ namespace musichino.Services
 {
     public partial class MessageService
     {
-        public void Actionify(Commands action)
+        public void PerformAction(Commands action)
         {
             switch (action)
             {
