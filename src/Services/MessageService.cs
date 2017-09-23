@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace musichino.Services
 {
-    public class MessageService
+    public partial class MessageService
     {
         public MessageModel GetMessage(string rawMessage)
         {
@@ -38,12 +38,14 @@ namespace musichino.Services
                 {
                     case "add":
                         return Commands.Add;
+                    case "help":
+                        return Commands.Help;
+                    case "list":
+                        return Commands.List;
                     case "remove":
                         return Commands.Remove;
                     case "suspend":
                         return Commands.Suspend;
-                    case "help":
-                        return Commands.Help;
                     default:
                         return Commands.Other;
                 }
@@ -112,10 +114,11 @@ namespace musichino.Services
         public enum Commands 
         {
             Add,
-            Remove,
-            Suspend,
             Help,
-            Other
+            List,
+            Other,
+            Remove,
+            Suspend
         }
     }
 

@@ -120,6 +120,23 @@ namespace Tests
         }
 
         [Fact]
+        public void TestGetMessageCommand_ShouldReturnList()
+        {
+            //Given
+            var service = new MessageService();
+            var text = "list";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.List;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+
+        [Fact]
         public void TestGetMessageCommand_ShouldThrowInvalidDataException()
         {
             //Given
