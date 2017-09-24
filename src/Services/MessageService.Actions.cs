@@ -1,10 +1,16 @@
 using System;
+using musichino.Data.Models;
 
 namespace musichino.Services
 {
     public partial class MessageService
     {
-        public void PerformAction(Commands action)
+        private MusichinoDbContext _context;
+        public MessageService(MusichinoDbContext context)
+        {
+            _context = context;
+        }
+        public void PerformAction(Commands action, int UserId)
         {
             switch (action)
             {
@@ -20,10 +26,15 @@ namespace musichino.Services
                 case Commands.Other:
                     // Let's other
                     break;
+                case Commands.Reactivate:
+                    // Let's reactivate
+                    break;
                 case Commands.Remove:
                     // Let's remove
+                    break;
                 case Commands.Suspend:
                     // Let's suspend
+                    break;
                 default:
                     // Why are you even here
                     throw new InvalidOperationException();

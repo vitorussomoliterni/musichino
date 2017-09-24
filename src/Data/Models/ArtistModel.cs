@@ -10,7 +10,7 @@ namespace musichino.Data.Models
             Users = new List<UserModel>();
         }
         public Guid Id { get; set; }
-        public int ExternalId { get; set; }
+        public string ExternalId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string Country { get; set; }

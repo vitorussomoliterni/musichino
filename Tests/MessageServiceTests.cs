@@ -39,7 +39,7 @@ namespace Tests
             var messageModel = new MessageModel()
             {
                 MessageId = 1365,
-                UserId = 1111111,
+                ExternalUserId = 1111111,
                 UtcDate = new DateTime(2017, 1, 1),
                 LastName = "Test Lastname",
                 FirstName = "Test",
@@ -137,6 +137,23 @@ namespace Tests
         }
 
         [Fact]
+        public void TestGetMessageCommand_ShouldReturnReactivate()
+        {
+            //Given
+            var service = new MessageService();
+            var text = "reactivate";
+            var rawMessage = rawMessageFactory(text);
+            var messageModel = messageModelFactory(text);
+
+            //When
+            var actualText = service.GetMessageCommand(messageModel.Text);
+            var expectedText = MessageService.Commands.Reactivate;
+
+            //Then
+            Assert.Equal(expectedText, actualText);
+        }
+
+        [Fact]
         public void TestGetMessageCommand_ShouldThrowInvalidDataException()
         {
             //Given
@@ -182,7 +199,7 @@ namespace Tests
             //Then
             Assert.NotNull(actualMessage);
             Assert.Equal(expectedMessage.UtcDate, actualMessage.UtcDate);
-            Assert.Equal(expectedMessage.UserId, actualMessage.UserId);
+            Assert.Equal(expectedMessage.ExternalUserId, actualMessage.ExternalUserId);
             Assert.Equal(expectedMessage.FirstName, actualMessage.FirstName);
             Assert.Equal(expectedMessage.LastName, actualMessage.LastName);
             Assert.Equal(expectedMessage.MessageId, actualMessage.MessageId);

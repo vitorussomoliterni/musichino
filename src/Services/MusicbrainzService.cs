@@ -51,7 +51,7 @@ namespace musichino.Services
             return document.Descendants()
                 .Where(node => node.Name.LocalName == "artist")
                 .Select(element => new ArtistModel {
-                    Id = (string)element.Attribute("id"),
+                    ExternalId = (string)element.Attribute("id"),
                     BeginYear = GetValueFromXml(element, "begin"),
                     Country = GetValueFromXml(element, "country"),
                     EndYear = GetValueFromXml(element, "end"),

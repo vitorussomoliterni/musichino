@@ -42,6 +42,8 @@ namespace musichino.Services
                         return Commands.Help;
                     case "list":
                         return Commands.List;
+                    case "reactivate":
+                        return Commands.Reactivate;
                     case "remove":
                         return Commands.Remove;
                     case "suspend":
@@ -100,7 +102,7 @@ namespace musichino.Services
         {
             var message = new MessageModel() {
                 MessageId = body.MessageId,
-                UserId = body.Sender.UserId,
+                ExternalUserId = body.Sender.UserId,
                 UtcDate = DateTimeHelper.UnixTimeToDateTime(body.Date),
                 FirstName = body.Sender.FirstName,
                 LastName = body.Sender.LastName,
@@ -117,6 +119,7 @@ namespace musichino.Services
             Help,
             List,
             Other,
+            Reactivate,
             Remove,
             Suspend
         }

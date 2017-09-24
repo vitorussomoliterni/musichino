@@ -5,7 +5,7 @@ namespace musichino.Models
     public class MessageModel
     {
         public int MessageId { get; set; }
-        public int UserId { get; set; }
+        public int ExternalUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
