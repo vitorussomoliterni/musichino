@@ -34,6 +34,7 @@ namespace musichino
 
             services.AddScoped<MusicbrainzService>()
                 .AddScoped<MessageService>()
+                //TODO: Configure PosgreSQL
                 .AddDbContext<MusichinoDbContext>();
         }
 
