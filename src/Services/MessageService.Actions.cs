@@ -5,11 +5,6 @@ namespace musichino.Services
 {
     public partial class MessageService
     {
-        private MusichinoDbContext _context;
-        public MessageService(MusichinoDbContext context)
-        {
-            _context = context;
-        }
         public void PerformAction(Commands action, int UserId)
         {
             switch (action)

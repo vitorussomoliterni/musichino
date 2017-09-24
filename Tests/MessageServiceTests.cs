@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Tests
 {
-    public class MessageServiceTests
+    public partial class MessageServiceTests
     {
         private string rawMessageFactory(string userMessage)
         {

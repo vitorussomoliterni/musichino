@@ -16,11 +16,13 @@ namespace musichino.Controllers
     {
         private MusicbrainzService _musicbrainz;
         private MessageService _message;
+        private MusichinoDbContext _context;
 
-        public WebHook(MusicbrainzService musicbrainz, MessageService message)
+        public WebHook(MusicbrainzService musicbrainz, MessageService message, MusichinoDbContext context)
         {
             _musicbrainz = musicbrainz;
             _message = message;
+            _context = context;
         }
         
         [HttpPost("")]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using musichino.Data.Models;
 using musichino.Services;
 
 namespace musichino
@@ -32,7 +33,8 @@ namespace musichino
             services.AddMvc();
 
             services.AddScoped<MusicbrainzService>()
-                .AddScoped<MessageService>();
+                .AddScoped<MessageService>()
+                .AddDbContext<MusichinoDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
