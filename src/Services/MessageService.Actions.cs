@@ -5,7 +5,7 @@ namespace musichino.Services
 {
     public partial class MessageService
     {
-        public void PerformAction(Commands action, int UserId)
+        public void PerformAction(Commands action, Guid UserId, MusichinoDbContext context)
         {
             switch (action)
             {
