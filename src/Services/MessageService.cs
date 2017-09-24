@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using musichino.Models;
+using musichino.Commands;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ namespace musichino.Services
 {
     public partial class MessageService
     {
-        public MessageModel GetMessage(string rawMessage)
+        public MessageCommand GetMessage(string rawMessage)
         {
             try
             {
@@ -98,9 +98,9 @@ namespace musichino.Services
             }
         }
 
-        private MessageModel mapJsonModelToMessage(MessageJsonModel body)
+        private MessageCommand mapJsonModelToMessage(MessageJsonModel body)
         {
-            var message = new MessageModel() {
+            var message = new MessageCommand() {
                 MessageId = body.MessageId,
                 ExternalUserId = body.Sender.UserId,
                 UtcDate = DateTimeHelper.UnixTimeToDateTime(body.Date),

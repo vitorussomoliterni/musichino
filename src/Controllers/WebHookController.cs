@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using musichino.Services;
 using musichino.Data.Models;
-using musichino.Models;
+using musichino.Commands;
 
 namespace musichino.Controllers
 {

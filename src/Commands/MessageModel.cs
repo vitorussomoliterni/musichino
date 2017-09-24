@@ -1,8 +1,8 @@
 using System;
 
-namespace musichino.Models
+namespace musichino.Commands
 {
-    public class MessageModel
+    public class MessageCommand
     {
         public int MessageId { get; set; }
         public int ExternalUserId { get; set; }

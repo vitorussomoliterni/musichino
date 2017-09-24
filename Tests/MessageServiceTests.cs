@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using musichino.Models;
+using musichino.Commands;
 using musichino.Services;
 using System.Threading.Tasks;
 using System.Text;
@@ -34,9 +34,9 @@ namespace Tests
             return rawMessage;
         }
 
-        private MessageModel messageModelFactory(string text)
+        private MessageCommand messageModelFactory(string text)
         {
-            var messageModel = new MessageModel()
+            var messageModel = new MessageCommand()
             {
                 MessageId = 1365,
                 ExternalUserId = 1111111,
