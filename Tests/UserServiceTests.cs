@@ -1,0 +1,95 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using musichino.Commands;
+using musichino.Data.Models;
+using musichino.Services;
+using Xunit;
+
+namespace Tests
+{
+    public class UserServiceTests
+    {
+        [Fact]
+        public async Task GetUserTest_ShouldGetUserFromDb()
+        {
+            // Given
+            var service = new UserService();
+            var options = TestHelper.optionsFactory("get_user_db");
+            var expectedUser = new UserModel()
+            {
+                Id = new Guid(),
+                FirstName = "Steven",
+                LastName = "Universe",
+                Username = "Zucchini",
+                ExternalId = 1,
+                CreatedAtUtc = DateTime.UtcNow,
+                IsActive = true
+            };
+
+            using (var context = new MusichinoDbContext(options))
+            {
+                await context.User.AddAsync(expectedUser);
+                await context.SaveChangesAsync();
+            }
+
+            // When
+            using (var context = new MusichinoDbContext(options))
+            {
+                var actualUser = await service.GetUser(expectedUser.ExternalId, context);
+                
+                // Then
+                Assert.NotNull(actualUser);
+                Assert.Equal(expectedUser.Id, actualUser.Id);
+                Assert.Equal(expectedUser.FirstName, actualUser.FirstName);
+                Assert.Equal(expectedUser.LastName, actualUser.LastName);
+                Assert.Equal(expectedUser.Username, actualUser.Username);
+                Assert.Equal(expectedUser.ExternalId, actualUser.ExternalId);
+                Assert.Equal(expectedUser.CreatedAtUtc, actualUser.CreatedAtUtc);
+                Assert.Equal(expectedUser.IsActive, actualUser.IsActive);
+            }
+        }
+
+        [Fact]
+        public async Task AddUserTest_ShouldAddUserToDb()
+        {
+            // Given
+            var service = new UserService();
+            var options = TestHelper.optionsFactory("add_user_db");
+            var expectedUser = new UserModel()
+            {
+                Id = new Guid(),
+                FirstName = "Steven",
+                LastName = "Universe",
+                Username = "Zucchini",
+                ExternalId = 1,
+                CreatedAtUtc = DateTime.UtcNow,
+                IsActive = true
+            };
+            var message = new MessageCommand() {
+                FirstName = expectedUser.FirstName,
+                LastName = expectedUser.LastName,
+                Username = expectedUser.Username,
+                ExternalUserId = expectedUser.ExternalId
+            };
+
+            // When
+            using (var context = new MusichinoDbContext(options))
+            {
+                await service.AddUser(message, context);
+                var actualUser = await context.User.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
+
+                // Then
+                Assert.NotEmpty(context.User);
+                Assert.NotNull(actualUser);
+                Assert.Equal(expectedUser.Id, actualUser.Id);
+                Assert.Equal(expectedUser.FirstName, actualUser.FirstName);
+                Assert.Equal(expectedUser.LastName, actualUser.LastName);
+                Assert.Equal(expectedUser.Username, actualUser.Username);
+                Assert.Equal(expectedUser.ExternalId, actualUser.ExternalId);
+                Assert.Equal(expectedUser.CreatedAtUtc, actualUser.CreatedAtUtc);
+                Assert.Equal(expectedUser.IsActive, actualUser.IsActive);
+            }
+        }
+    }
+}
