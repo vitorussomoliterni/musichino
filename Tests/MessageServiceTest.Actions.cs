@@ -10,25 +10,16 @@ namespace Tests
 {
     public partial class MessageServiceTest
     {
-        private DbContextOptions optionsFactory(string dbName)
-        {
-            var options = new DbContextOptionsBuilder<MusichinoDbContext>()
-                .UseInMemoryDatabase(dbName)
-                .Options;
-
-            return options;
-        }
-
         [Fact]
         public async Task PerformActionTest_ShouldSuspendUserActivity()
         {
             //Given
             var service = new MessageService();
-            var options = optionsFactory("suspend_user_db");
+            var options = TestHelper.optionsFactory("suspend_user_db");
             var expectedUser = new UserModel()
             {
                 Id = new Guid(),
-                ExternalId = "000001",
+                ExternalId = 1,
                 CreatedAtUtc = DateTime.UtcNow,
                 IsActive = false
             };

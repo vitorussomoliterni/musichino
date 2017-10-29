@@ -1,11 +1,12 @@
 using System;
+using System.Threading.Tasks;
 using musichino.Data.Models;
 
 namespace musichino.Services
 {
     public partial class MessageService
     {
-        public void PerformAction(Commands action, Guid UserId, MusichinoDbContext context)
+        public async Task PerformAction(Commands action, Guid UserId, MusichinoDbContext context)
         {
             switch (action)
             {
