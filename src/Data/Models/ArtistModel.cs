@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace musichino.Data.Models
 {
     public class ArtistModel
     {
-        public ArtistModel()
-        {
-            Users = new List<UserModel>();
-        }
+        [Key]
         public Guid Id { get; set; }
         public string ExternalId { get; set; }
         public string Name { get; set; }
@@ -17,7 +16,6 @@ namespace musichino.Data.Models
         public string BeginYear { get; set; }
         public string EndYear { get; set; }
         public bool? Ended { get; set; }
-        public List<UserModel> Users { get; set; }
         public DateTime CreatedAtUtc { get; set; }
         public DateTime LastCheckedAtUtc { get; set; }
         public string LatestReleaseName { get; set; }
@@ -25,5 +23,8 @@ namespace musichino.Data.Models
         public DateTime LatestReleaseDateUtc { get; set; }
         public DateTime ModifiedAtUtc { get; set; }
         public DateTime DeletedAtUtc { get; set; }
+        public Guid ArtistUserId { get; set; }
+        [ForeignKey("ArtistUserId")]
+        public ArtistUserModel ArtistUser { get; set; }
     }
 }
