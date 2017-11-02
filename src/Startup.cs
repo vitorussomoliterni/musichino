@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using musichino.Data.Models;
 using musichino.Services;
+using Serilog;
 
 namespace musichino
 {
@@ -22,6 +23,12 @@ namespace musichino
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.RollingFile("../logs/log-{Date}.txt")
+                .CreateLogger();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -43,6 +50,7 @@ namespace musichino
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
             app.UseMvc();
         }

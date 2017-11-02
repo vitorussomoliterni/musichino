@@ -1,11 +1,17 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using musichino.Data.Models;
 
 namespace musichino.Services
 {
     public partial class MessageService
     {
+        readonly ILogger<MessageService> _logger;
+        public MessageService(ILogger<MessageService> logger)
+        {
+            _logger = logger;
+        }
         public async Task PerformAction(Commands action, Guid UserId, MusichinoDbContext context)
         {
             switch (action)
