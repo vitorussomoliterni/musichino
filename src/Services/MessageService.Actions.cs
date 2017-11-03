@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using musichino.Data.Models;
 
@@ -7,12 +8,12 @@ namespace musichino.Services
 {
     public partial class MessageService
     {
-        readonly ILogger<MessageService> _logger;
-        public MessageService(ILogger<MessageService> logger)
+        UserService _user;
+        public MessageService(UserService user)
         {
-            _logger = logger;
+            _user = user;
         }
-        public async Task PerformAction(Commands action, Guid UserId, MusichinoDbContext context)
+        public async Task PerformAction(Commands action, Guid userId, MusichinoDbContext context)
         {
             switch (action)
             {
@@ -35,11 +36,11 @@ namespace musichino.Services
                     // Let's remove
                     break;
                 case Commands.Suspend:
-                    // Let's suspend
+                    await _user.suspendUser(userId, context);
                     break;
                 default:
                     // Why are you even here
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("No action found");
             }
         }
     }

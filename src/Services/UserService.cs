@@ -16,7 +16,7 @@ namespace musichino.Services
                 throw new InvalidDataException("No external user id provided");
             }
 
-            var user = await context.User.FirstOrDefaultAsync(u => u.ExternalId == ExternalId);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.ExternalId == ExternalId);
 
             return user;
         }
@@ -38,7 +38,28 @@ namespace musichino.Services
                 CreatedAtUtc = DateTime.UtcNow
             };
 
-            await context.User.AddAsync(user);
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+            return user;
+        }
+
+        internal async Task<UserModel> suspendUser(Guid userId, MusichinoDbContext context)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException($"No user found for user id {userId}");
+            }
+
+            if (!user.IsActive)
+            {
+                throw new InvalidOperationException($"User with id {userId} is already inactive");
+            }
+
+            user.IsActive = false;
+            
             await context.SaveChangesAsync();
 
             return user;
