@@ -21,12 +21,12 @@ namespace Tests
                 Id = new Guid(),
                 ExternalId = 1,
                 CreatedAtUtc = DateTime.UtcNow,
-                IsActive = false
+                IsActive = true
             };
 
             using (var context = new MusichinoDbContext(options))
             {
-                await context.User.AddAsync(expectedUser);
+                await context.Users.AddAsync(expectedUser);
                 await context.SaveChangesAsync();
             }
 
@@ -34,7 +34,7 @@ namespace Tests
             using (var context = new MusichinoDbContext(options))
             {
                 await service.PerformAction(Commands.Suspend, expectedUser.Id, context);
-                var actualUser = await context.User.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
+                var actualUser = await context.Users.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
 
                 //Then
                 Assert.NotNull(actualUser);
