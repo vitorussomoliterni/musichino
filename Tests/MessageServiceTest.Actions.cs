@@ -14,7 +14,8 @@ namespace Tests
         public async Task PerformActionTest_ShouldSuspendUserActivity()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var options = TestHelper.optionsFactory("suspend_user_db");
             var expectedUser = new UserModel()
             {

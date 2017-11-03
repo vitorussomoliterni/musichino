@@ -54,7 +54,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnAdd()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "add nofx";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -71,7 +72,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnRemove()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "remove green day";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -89,7 +91,8 @@ namespace Tests
         {
 
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "suspend";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -106,7 +109,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnHelp()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "help";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -123,7 +127,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnList()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "list";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -140,7 +145,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnReactivate()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "reactivate";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -157,7 +163,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldThrowInvalidDataException()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
 
             //Then
             Assert.Throws<InvalidDataException>(() => service.GetMessageCommand("   "));
@@ -170,7 +177,8 @@ namespace Tests
         public void TestGetMessageCommand_ShouldReturnOther()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "avada kevadra";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -187,7 +195,8 @@ namespace Tests
         public void TestGetMessage_ShouldGetTheMessageText()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var text = "add nofx";
             var rawMessage = rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
@@ -212,7 +221,8 @@ namespace Tests
         public async Task TestReadRequestBodyAsync_ShouldReturnString()
         {
             //Given
-            var service = new MessageService();
+            var userService = new UserService();
+            var service = new MessageService(userService);
             var rawMessage = rawMessageFactory("add nofx");
             
             //When

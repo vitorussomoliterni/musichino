@@ -77,17 +77,15 @@ namespace Tests
             using (var context = new MusichinoDbContext(options))
             {
                 await service.AddUser(message, context);
-                var actualUser = await context.Users.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
+                var actualUser = await context.Users.FirstOrDefaultAsync();
 
                 // Then
                 Assert.NotEmpty(context.Users);
                 Assert.NotNull(actualUser);
-                Assert.Equal(expectedUser.Id, actualUser.Id);
                 Assert.Equal(expectedUser.FirstName, actualUser.FirstName);
                 Assert.Equal(expectedUser.LastName, actualUser.LastName);
                 Assert.Equal(expectedUser.Username, actualUser.Username);
                 Assert.Equal(expectedUser.ExternalId, actualUser.ExternalId);
-                Assert.Equal(expectedUser.CreatedAtUtc, actualUser.CreatedAtUtc);
                 Assert.Equal(expectedUser.IsActive, actualUser.IsActive);
             }
         }
