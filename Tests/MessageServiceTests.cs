@@ -10,30 +10,6 @@ namespace Tests
 {
     public partial class MessageServiceTests
     {
-        private string rawMessageFactory(string userMessage)
-        {
-            var rawMessage = @"{'update_id': 10000,
-                                'message': {
-                                    'date': 1483228800,
-                                       'chat': {
-                                            'last_name': 'Test Lastname',
-                                            'id': 1111111,
-                                            'first_name': 'Test',
-                                            'username': 'Test'
-                                            },
-                                        'message_id': 1365,
-                                        'from': {
-                                            'last_name': 'Test Lastname',
-                                            'id': 1111111,
-                                            'first_name': 'Test',
-                                            'username': 'Test'
-                                            },
-                                        'text':'" + userMessage + 
-                                    @"'}
-                                }";
-            return rawMessage;
-        }
-
         private MessageCommand messageModelFactory(string text)
         {
             var messageModel = new MessageCommand()
@@ -57,7 +33,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "add nofx";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -75,7 +51,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "remove green day";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -94,7 +70,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "suspend";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -112,7 +88,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "help";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -130,7 +106,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "list";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -148,7 +124,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "reactivate";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -180,7 +156,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "avada kevadra";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -198,7 +174,7 @@ namespace Tests
             var userService = new UserService();
             var service = new MessageService(userService);
             var text = "add nofx";
-            var rawMessage = rawMessageFactory(text);
+            var rawMessage = TestHelper.rawMessageFactory(text);
             var messageModel = messageModelFactory(text);
 
             //When
@@ -223,7 +199,7 @@ namespace Tests
             //Given
             var userService = new UserService();
             var service = new MessageService(userService);
-            var rawMessage = rawMessageFactory("add nofx");
+            var rawMessage = TestHelper.rawMessageFactory("add nofx");
             
             //When
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(rawMessage)))

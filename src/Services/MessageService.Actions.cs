@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using musichino.Commands;
 using musichino.Data.Models;
 
 namespace musichino.Services
@@ -13,7 +14,7 @@ namespace musichino.Services
         {
             _user = user;
         }
-        public async Task PerformAction(Commands action, Guid userId, MusichinoDbContext context)
+        public async Task PerformAction(Commands action, Guid userId, MessageCommand message, MusichinoDbContext context)
         {
             switch (action)
             {
