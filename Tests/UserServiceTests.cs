@@ -29,7 +29,7 @@ namespace Tests
 
             using (var context = new MusichinoDbContext(options))
             {
-                await context.User.AddAsync(expectedUser);
+                await context.Users.AddAsync(expectedUser);
                 await context.SaveChangesAsync();
             }
 
@@ -77,10 +77,10 @@ namespace Tests
             using (var context = new MusichinoDbContext(options))
             {
                 await service.AddUser(message, context);
-                var actualUser = await context.User.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
+                var actualUser = await context.Users.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
 
                 // Then
-                Assert.NotEmpty(context.User);
+                Assert.NotEmpty(context.Users);
                 Assert.NotNull(actualUser);
                 Assert.Equal(expectedUser.Id, actualUser.Id);
                 Assert.Equal(expectedUser.FirstName, actualUser.FirstName);

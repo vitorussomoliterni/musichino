@@ -9,8 +9,8 @@ namespace musichino.Data.Models
         public MusichinoDbContext(DbContextOptions<MusichinoDbContext> options)
             : base(options)
         { }
-        public DbSet<ArtistModel> Astist { get; set; }
-        public DbSet<UserModel> User { get; set; }
-        public DbSet<ActionModel> Action { get; set; }
+        public DbSet<ArtistModel> Astists { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<ActionModel> Actions { get; set; }
     }
 }
