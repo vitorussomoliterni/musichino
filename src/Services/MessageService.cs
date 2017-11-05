@@ -3,6 +3,9 @@ using musichino.Commands;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using musichino.Data.Models;
 
 namespace musichino.Services
 {
@@ -37,7 +40,7 @@ namespace musichino.Services
                 switch (command)
                 {
                     case "add":
-                        return Commands.Add;
+                        return Commands.Search;
                     case "help":
                         return Commands.Help;
                     case "list":
@@ -113,8 +116,26 @@ namespace musichino.Services
             return message;
         }
 
+        private async Task<List<ArtistModel>> searchArtist(string message)
+        {
+            var artistName = getArtistName(message);
+
+            var artists = await _musicbrainz.GetArtistNameList(artistName);
+
+            return artists.ToList();
+        }
+
+        private string getArtistName(string message)
+        {
+            var indexOfSpace = message.Trim().IndexOf(" ");
+            var artistName = message.Substring(indexOfSpace).Trim();
+
+            return artistName;
+        }
+
         public enum Commands 
         {
+            Search,
             Add,
             Help,
             List,

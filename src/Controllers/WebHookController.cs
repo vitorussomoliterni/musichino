@@ -16,14 +16,12 @@ namespace musichino.Controllers
     {
         private MusicbrainzService _musicbrainz;
         private MessageService _message;
-        private MusichinoDbContext _context;
         private UserService _user;
 
-        public WebHook(MusicbrainzService musicbrainz, MessageService message, MusichinoDbContext context, UserService user)
+        public WebHook(MusicbrainzService musicbrainz, MessageService message, UserService user)
         {
             _musicbrainz = musicbrainz;
             _message = message;
-            _context = context;
             _user = user;
         }
         
@@ -35,11 +33,11 @@ namespace musichino.Controllers
                 var rawMessage = await _message.ReadRequestBodyAsync(Request.Body);
                 var message = _message.GetMessage(rawMessage);
                 var action = _message.GetMessageCommand(message.Text);
-                var user = await _user.GetUser(message.ExternalUserId, _context);
+                var user = await _user.GetUser(message.ExternalUserId);
                 
                 if (user == null)
                 {
-                    await _user.AddUser(message, _context);
+                    await _user.AddUser(message);
                 }
 
                 return Ok();

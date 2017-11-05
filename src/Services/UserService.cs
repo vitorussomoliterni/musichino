@@ -9,19 +9,24 @@ namespace musichino.Services
 {
     public class UserService
     {
-        public async Task<UserModel> GetUser(int? ExternalId, MusichinoDbContext context)
+        MusichinoDbContext _context;
+        public UserService(MusichinoDbContext context)
+        {
+            _context = context;
+        }
+        public async Task<UserModel> GetUser(int? ExternalId)
         {
             if (ExternalId == null)
             {
                 throw new InvalidDataException("No external user id provided");
             }
 
-            var user = await context.Users.FirstOrDefaultAsync(u => u.ExternalId == ExternalId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId == ExternalId);
 
             return user;
         }
 
-        public async Task<UserModel> AddUser(MessageCommand message, MusichinoDbContext context)
+        public async Task<UserModel> AddUser(MessageCommand message)
         {
             if (message == null)
             {
@@ -38,15 +43,15 @@ namespace musichino.Services
                 CreatedAtUtc = DateTime.UtcNow
             };
 
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
-        internal async Task<UserModel> suspendUser(Guid userId, MusichinoDbContext context)
+        internal async Task<UserModel> suspendUser(Guid userId)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
             {
@@ -60,7 +65,7 @@ namespace musichino.Services
 
             user.IsActive = false;
             
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return user;
         }

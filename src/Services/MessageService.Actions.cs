@@ -1,25 +1,24 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using musichino.Commands;
-using musichino.Data.Models;
 
 namespace musichino.Services
 {
     public partial class MessageService
     {
         UserService _user;
-        public MessageService(UserService user)
+        MusicbrainzService _musicbrainz;
+        public MessageService(UserService user, MusicbrainzService musicbrainz)
         {
             _user = user;
+            _musicbrainz = musicbrainz;
         }
-        public async Task PerformAction(Commands action, Guid userId, MessageCommand message, MusichinoDbContext context)
+        public async Task PerformAction(Commands action, Guid userId, MessageCommand message)
         {
             switch (action)
             {
-                case Commands.Add:
-                    // Let's add
+                case Commands.Search:
+                    // Let's search
                     break;
                 case Commands.Help:
                     // Let's help
@@ -37,7 +36,7 @@ namespace musichino.Services
                     // Let's remove
                     break;
                 case Commands.Suspend:
-                    await _user.suspendUser(userId, context);
+                    await _user.suspendUser(userId);
                     break;
                 default:
                     // Why are you even here
