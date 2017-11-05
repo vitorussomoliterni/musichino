@@ -14,7 +14,6 @@ namespace Tests
         public async Task GetUserTest_ShouldGetUserFromDb()
         {
             // Given
-            var service = new UserService();
             var options = TestHelper.optionsFactory("get_user_db");
             var expectedUser = new UserModel()
             {
@@ -36,7 +35,8 @@ namespace Tests
             // When
             using (var context = new MusichinoDbContext(options))
             {
-                var actualUser = await service.GetUser(expectedUser.ExternalId, context);
+                var service = new UserService(context);
+                var actualUser = await service.GetUser(expectedUser.ExternalId);
                 
                 // Then
                 Assert.NotNull(actualUser);
@@ -54,7 +54,6 @@ namespace Tests
         public async Task AddUserTest_ShouldAddUserToDb()
         {
             // Given
-            var service = new UserService();
             var options = TestHelper.optionsFactory("add_user_db");
             var expectedUser = new UserModel()
             {
@@ -76,7 +75,8 @@ namespace Tests
             // When
             using (var context = new MusichinoDbContext(options))
             {
-                await service.AddUser(message, context);
+                var service = new UserService(context);
+                await service.AddUser(message);
                 var actualUser = await context.Users.FirstOrDefaultAsync();
 
                 // Then

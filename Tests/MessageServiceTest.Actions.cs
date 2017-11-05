@@ -14,9 +14,7 @@ namespace Tests
         [Fact]
         public async Task PerformActionTest_ShouldAddArtist()
         {
-            //Given
-            var userService = new UserService();
-            var service = new MessageService(userService);
+            // Given
             var options = TestHelper.optionsFactory("add_artist_db");
             var expectedUser = new UserModel()
             {
@@ -32,14 +30,14 @@ namespace Tests
 
             using (var context = new MusichinoDbContext(options))
             {
+                // When
+                var userService = new UserService(context);
+                var musicbrainzService = new MusicbrainzService();
+                var service = new MessageService(userService, musicbrainzService);
                 await context.Users.AddAsync(expectedUser);
                 await context.SaveChangesAsync();
-            }
 
-            //When
-            using (var context = new MusichinoDbContext(options))
-            {
-                await service.PerformAction(Commands.Add, expectedUser.Id, message, context);
+                await service.PerformAction(Commands.Search, expectedUser.Id, message);
                 var actualUser = await context.Users.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
                 var actualArtist = await context.Artists.FirstOrDefaultAsync(a => a.Name == "nofx");
                 var actualArtistUser = await context.ArtistUsers.FirstOrDefaultAsync();
@@ -57,8 +55,6 @@ namespace Tests
         public async Task PerformActionTest_ShouldSuspendUserActivity()
         {
             //Given
-            var userService = new UserService();
-            var service = new MessageService(userService);
             var options = TestHelper.optionsFactory("suspend_user_db");
             var expectedUser = new UserModel()
             {
@@ -70,14 +66,14 @@ namespace Tests
 
             using (var context = new MusichinoDbContext(options))
             {
+                var userService = new UserService(context);
+                var musicbrainzService = new MusicbrainzService();
+                var service = new MessageService(userService, musicbrainzService);
                 await context.Users.AddAsync(expectedUser);
                 await context.SaveChangesAsync();
-            }
 
-            //When
-            using (var context = new MusichinoDbContext(options))
-            {
-                await service.PerformAction(Commands.Suspend, expectedUser.Id, null, context);
+                // When
+                await service.PerformAction(Commands.Suspend, expectedUser.Id, null);
                 var actualUser = await context.Users.FirstOrDefaultAsync(u => u.Id == expectedUser.Id);
 
                 //Then
