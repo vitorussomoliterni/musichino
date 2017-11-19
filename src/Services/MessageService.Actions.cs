@@ -39,7 +39,7 @@ namespace musichino.Services
                     await _user.suspendUser(userId);
                     break;
                 default:
-                    // Why are you even here
+                    // How are you even here?
                     throw new InvalidOperationException("No action found");
             }
         }

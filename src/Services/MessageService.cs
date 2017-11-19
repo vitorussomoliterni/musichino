@@ -22,7 +22,7 @@ namespace musichino.Services
             }
             catch (Exception ex)
             {
-                // TODO: Better error handling
+                // TODO: Improve error handling
                 throw ex;
             }
         }
@@ -39,8 +39,10 @@ namespace musichino.Services
 
                 switch (command)
                 {
-                    case "add":
+                    case "search":
                         return Commands.Search;
+                    case "add":
+                        return Commands.Add;
                     case "help":
                         return Commands.Help;
                     case "list":
@@ -57,7 +59,7 @@ namespace musichino.Services
             }
             catch (Exception ex)
             {
-                // TODO: Better error handling
+                // TODO: Improve error handling
                 throw ex;
             }
         }
@@ -96,7 +98,7 @@ namespace musichino.Services
             }
             catch (Exception ex)
             {
-                // TODO: Better error handling
+                // TODO: Improve error handling
                 throw ex;
             }
         }

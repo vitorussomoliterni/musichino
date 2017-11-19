@@ -25,7 +25,7 @@ namespace Tests
             };
 
             var message = new MessageCommand() {
-                Text = "add nofx"
+                Text = "search nofx"
             };
 
             using (var context = new MusichinoDbContext(options))
